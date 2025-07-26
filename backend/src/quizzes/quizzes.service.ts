@@ -7,12 +7,18 @@ export class QuizzesService {
   constructor(private prisma: PrismaService) {}
 
   async create(createQuizDto: CreateQuizDto) {
-    const { questions, ...restData } = createQuizDto;
+    const { questions, ...quizzData } = createQuizDto;
+
+    const createdQuestionsData = questions.map(
+      ({ answers, ...questionData }) => {
+        return { ...questionData, answers: { create: answers } };
+      },
+    );
+
     await this.prisma.quizz.create({
       data: {
-        ...restData,
-
-        questions: { create: questions },
+        ...quizzData,
+        questions: { create: createdQuestionsData },
       },
     });
   }
@@ -20,7 +26,7 @@ export class QuizzesService {
   async findAll() {
     return this.prisma.quizz.findMany({
       include: {
-        questions: true,
+        questions: { include: { answers: true } },
       },
     });
   }
@@ -29,7 +35,7 @@ export class QuizzesService {
     return this.prisma.quizz.findUnique({
       where: { id },
       include: {
-        questions: true,
+        questions: { include: { answers: true } },
       },
     });
   }

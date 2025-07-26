@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -22,10 +16,18 @@ model Quizz {
 model Question {
   id      Int          @id @default(autoincrement())
   quizzId Int
-  content String
+  text    String
   type    QuestionType
-  answer  String
   quizz   Quizz        @relation(fields: [quizzId], references: [id], onDelete: Cascade)
+  answers Answer[]
+}
+
+model Answer {
+  id         Int      @id @default(autoincrement())
+  questionId Int
+  value      String
+  isCorrect  Boolean
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }
 
 enum QuestionType {
