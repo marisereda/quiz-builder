@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import { IconType } from 'react-icons';
-import { MdDelete } from 'react-icons/md';
 
 interface ButtonIconProps
   extends Omit<React.ComponentPropsWithoutRef<'button'>, 'className'> {

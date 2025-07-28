@@ -11,6 +11,7 @@ import Button from './Button';
 import ErrorMessage from './ErrorMessage';
 import { MdDelete } from 'react-icons/md';
 import ButtonIcon from './ButtonIcon';
+import Label from './Label';
 
 const defaultValues: IQuestion = {
   text: '',
@@ -63,42 +64,49 @@ export default function QuestionForm({ onClose, onSave }: IQuestionFormProps) {
       <Title>Add a Question</Title>
 
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-        <label>
+        <Label>
           Question:
           <textarea
-            className="border p-2 rounded w-full"
+            className="border p-2 rounded w-full text-gray-950 font-normal"
             placeholder="Type the question"
-            {...register('text', { required: true })}
+            {...register('text', { required: true, minLength: 5 })}
           />
-          {errors.text && <ErrorMessage>This field is required</ErrorMessage>}
-        </label>
+          {errors.text && (
+            <ErrorMessage>
+              This field is required and the length should be more than 5
+            </ErrorMessage>
+          )}
+        </Label>
 
-        <label>
+        <Label>
           Choose the type of answer:
-          <select {...register('type')} className="border p-2 rounded w-full">
+          <select
+            {...register('type')}
+            className="border p-2 rounded w-full text-gray-950 font-normal"
+          >
             <option value={QuestionType.boolean}>True / False</option>
             <option value={QuestionType.input}>Text</option>
             <option value={QuestionType.checkbox}>Checkbox</option>
           </select>
-        </label>
+        </Label>
 
         {chosenQuestionType === QuestionType.checkbox && (
           <div className="flex flex-col gap-3">
-            <label className="flex flex-col gap-3">
+            <Label className="flex flex-col gap-3">
               Add the answers and mark the correct one(s):
               {answers.map((answer, index) => (
                 <>
-                  <div key={answer.id} className="flex gap-3">
+                  <div key={answer.id} className="flex  gap-3">
                     <input
                       placeholder="Type the variant of answer"
-                      className="border p-2 rounded w-full"
+                      className="border p-2 rounded w-full text-gray-950 font-normal"
                       {...register(`answers.${index}.value`, {
                         required: true,
                       })}
                     />
 
                     <input
-                      className="min-w-6"
+                      className="min-w-6 text-gray-950 font-normal"
                       type="checkbox"
                       {...register(`answers.${index}.isCorrect` as const)}
                     />
@@ -110,9 +118,12 @@ export default function QuestionForm({ onClose, onSave }: IQuestionFormProps) {
                       onClick={() => remove(index)}
                     />
                   </div>
+                  {errors.answers?.[index]?.value && (
+                    <ErrorMessage>The answer is required</ErrorMessage>
+                  )}
                 </>
               ))}
-            </label>
+            </Label>
             <Button
               className="m-auto"
               title="Add answer"
@@ -124,21 +135,26 @@ export default function QuestionForm({ onClose, onSave }: IQuestionFormProps) {
 
         {chosenQuestionType === QuestionType.input && answers.length > 0 && (
           <div className="mt-2">
-            <label className="block mb-1">Correct Answer:</label>
-            <input
-              placeholder="Type the correct answer"
-              className="border p-2 rounded w-full"
-              {...register(`answers.0.value`, { required: true })}
-            />
+            <Label className="flex flex-col gap-4">
+              Correct Answer:
+              <input
+                placeholder="Type the correct answer"
+                className="border p-2 rounded w-full text-gray-950 font-normal"
+                {...register(`answers.0.value`, { required: true })}
+              />
+              {errors.answers?.[0]?.value && (
+                <ErrorMessage>The answer is required</ErrorMessage>
+              )}
+            </Label>
           </div>
         )}
 
         {chosenQuestionType === QuestionType.boolean && answers.length > 0 && (
           <div className="mt-2">
-            <label className="block mb-1">Correct Answer:</label>
+            <Label>Correct Answer:</Label>
             <select
               {...register(`answers.0.value`)}
-              className="border p-2 rounded w-full"
+              className="border p-2 rounded w-full text-gray-950 font-normal"
             >
               <option value="true">True</option>
               <option value="false">False</option>
@@ -153,7 +169,7 @@ export default function QuestionForm({ onClose, onSave }: IQuestionFormProps) {
             onClick={onClose}
             variant="secondary"
           />
-          <Button type="submit" title="Save" />
+          <Button type="submit" title="Save" disabled={answers.length === 0} />
         </div>
       </form>
     </div>
