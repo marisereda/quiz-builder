@@ -4,7 +4,6 @@ import {
   IsEnum,
   IsNotEmpty,
   IsString,
-  MinLength,
   ValidateNested,
 } from 'class-validator';
 import { CreateAnswerDto } from './create-answer.dto';
@@ -12,7 +11,7 @@ import { Type } from 'class-transformer';
 
 export class CreateQuestionDto {
   @IsString()
-  @MinLength(5)
+  @IsNotEmpty()
   text: string;
 
   @IsNotEmpty()

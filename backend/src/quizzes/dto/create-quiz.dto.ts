@@ -1,10 +1,10 @@
-import { IsArray, IsString, MinLength, ValidateNested } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 import { CreateQuestionDto } from './create-question.dto';
 import { Type } from 'class-transformer';
 
 export class CreateQuizDto {
+  @IsNotEmpty()
   @IsString()
-  @MinLength(5)
   title: string;
 
   @IsArray()
