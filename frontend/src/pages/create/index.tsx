@@ -71,10 +71,10 @@ export default function CreateQuizz() {
   return (
     <>
       <ButtonLink href="/quizzes" title="Back to Quizzes" />
-      <Title>Create Quizz</Title>
+      <Title>Create Quiz</Title>
       <div className="flex flex-col gap-4">
         <Label>
-          Quizz title
+          Quiz title
           <input
             className="border p-2 rounded w-full text-gray-950 font-normal"
             type="text"
@@ -83,7 +83,7 @@ export default function CreateQuizz() {
               setQuizzState({ ...quizzState, title: e.target.value });
               setErrorMessage(null);
             }}
-            placeholder="Type Quizz Title"
+            placeholder="Type Quiz Title"
           />
         </Label>
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
@@ -114,7 +114,7 @@ export default function CreateQuizz() {
             <Button
               type="button"
               onClick={handleSaveQuizz}
-              title="Save Quizz"
+              title="Save Quiz"
               disabled={quizzState.questions.length === 0 || !quizzState.title}
             />
           </div>

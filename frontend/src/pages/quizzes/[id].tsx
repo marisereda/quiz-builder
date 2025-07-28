@@ -22,7 +22,7 @@ export default function Quizz({ data }: IQuizzProps) {
   return (
     <>
       <ButtonLink href="/quizzes" title="Back to Quizzes" />
-      <Title>Quizz details</Title>
+      <Title>Quiz details</Title>
       <h2 className="flex justify-center font-bold text-3xl mb-8 text-blue-500">
         {data?.title}
       </h2>

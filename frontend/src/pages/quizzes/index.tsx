@@ -36,7 +36,7 @@ export default function Quizzes({ data }: IQuizzesProps) {
 
   return (
     <>
-      <ButtonLink href="/create" title="Create a Quizz" />
+      <ButtonLink href="/create" title="Create a Quiz" />
       <Title>Quizzes list</Title>
       <div className="flex flex-col gap-4 items-center">
         {data.length !== 0 &&
@@ -64,7 +64,7 @@ export default function Quizzes({ data }: IQuizzesProps) {
         {data.length === 0 && (
           <p className="mt-20 text-2xl text-blue-500 ">
             {
-              "There is no any Quizz saved. Press 'Create a Quizz' button to add the Quizz."
+              "There is no any Quiz saved. Press 'Create a Quiz' button to add the Quiz."
             }
           </p>
         )}
